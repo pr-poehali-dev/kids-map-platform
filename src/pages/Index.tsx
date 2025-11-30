@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Icon from '@/components/ui/icon';
+import Map from '@/components/Map';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -32,6 +33,8 @@ const Index = () => {
       age: '3-12 лет',
       lat: 53.9045,
       lng: 27.5615,
+      lat: 53.9045,
+      lng: 27.5615,
     },
     {
       id: 2,
@@ -45,6 +48,8 @@ const Index = () => {
       age: '5-14 лет',
       lat: 53.9168,
       lng: 27.5951,
+      lat: 53.9168,
+      lng: 27.5951,
     },
     {
       id: 3,
@@ -56,6 +61,8 @@ const Index = () => {
       image: 'https://cdn.poehali.dev/projects/a25511fd-3659-4f1d-85ff-eaaa395f6547/files/eb7b732c-3b36-4d13-aef0-68bfd863b5cf.jpg',
       price: '$$',
       age: '0-12 лет',
+      lat: 53.8930,
+      lng: 27.5475,
       lat: 53.8935,
       lng: 27.5474,
     },
@@ -260,105 +267,11 @@ const Index = () => {
 
           <div className="grid lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2">
-              <div className="relative w-full h-[500px] bg-gradient-to-br from-teal-50 to-blue-50 rounded-xl overflow-hidden border-4 border-white shadow-2xl">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(147,197,253,0.3),transparent_70%)]" />
-                
-                <div className="absolute top-4 left-4 z-10">
-                  <Card className="shadow-lg border-2">
-                    <CardContent className="p-3 flex items-center gap-2">
-                      <Icon name="MapPin" size={16} className="text-primary" />
-                      <span className="text-sm font-medium">Минск, Беларусь</span>
-                    </CardContent>
-                  </Card>
-                </div>
-
-                <div className="absolute top-4 right-4 z-10 flex gap-2">
-                  <Button size="sm" variant="secondary" className="shadow-lg">
-                    <Icon name="Navigation" size={16} className="mr-1" />
-                    Моё местоположение
-                  </Button>
-                </div>
-
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 800 500">
-                  <defs>
-                    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-                      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
-                      <feOffset dx="0" dy="2" result="offsetblur"/>
-                      <feComponentTransfer>
-                        <feFuncA type="linear" slope="0.3"/>
-                      </feComponentTransfer>
-                      <feMerge>
-                        <feMergeNode/>
-                        <feMergeNode in="SourceGraphic"/>
-                      </feMerge>
-                    </filter>
-                  </defs>
-
-                  {venues
-                    .filter(v => activeFilter === null || v.category === activeFilter)
-                    .map((venue, index) => {
-                      const x = 150 + index * 130 + (index % 2) * 50;
-                      const y = 200 + (index % 3) * 80;
-                      const isSelected = selectedVenue === venue.id;
-                      const colors = {
-                        'Развлекательные центры': '#ec4899',
-                        'Кружки и секции': '#8b5cf6',
-                        'Детские кафе': '#f97316',
-                        'Магазины': '#10b981',
-                        'Услуги': '#06b6d4'
-                      };
-                      const color = colors[venue.category as keyof typeof colors] || '#ec4899';
-
-                      return (
-                        <g
-                          key={venue.id}
-                          className="cursor-pointer transition-transform duration-200 hover:scale-110"
-                          onClick={() => setSelectedVenue(isSelected ? null : venue.id)}
-                          filter="url(#shadow)"
-                        >
-                          <circle
-                            cx={x}
-                            cy={y}
-                            r={isSelected ? 28 : 20}
-                            fill={color}
-                            opacity={isSelected ? 1 : 0.9}
-                            className="transition-all duration-200"
-                          />
-                          <circle
-                            cx={x}
-                            cy={y}
-                            r={isSelected ? 22 : 14}
-                            fill="white"
-                            opacity={0.9}
-                          />
-                          {isSelected && (
-                            <>
-                              <circle
-                                cx={x}
-                                cy={y}
-                                r={35}
-                                fill="none"
-                                stroke={color}
-                                strokeWidth="2"
-                                opacity="0.4"
-                                className="animate-ping"
-                              />
-                              <line
-                                x1={x}
-                                y1={y + 28}
-                                x2={x}
-                                y2={y + 45}
-                                stroke={color}
-                                strokeWidth="3"
-                                strokeLinecap="round"
-                              />
-                            </>
-                          )}
-                        </g>
-                      );
-                    })}
-                </svg>
-              </div>
+              <Map 
+                venues={venues.filter(v => activeFilter === null || v.category === activeFilter)} 
+                center={[53.9, 27.56]} 
+                zoom={12} 
+              />
             </div>
 
             <div className="lg:col-span-1">
@@ -515,6 +428,14 @@ const Index = () => {
             </Card>
           ))}
         </div>
+      </section>
+
+      <section className="container mx-auto px-4 pb-16">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-heading font-bold mb-3">Все места на карте</h2>
+          <p className="text-gray-600">Выбирайте удобное местоположение для вас и вашего ребёнка</p>
+        </div>
+        <Map venues={venues} center={[53.9, 27.56]} zoom={12} />
       </section>
 
       <section className="bg-white py-16">

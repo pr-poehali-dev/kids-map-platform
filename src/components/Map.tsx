@@ -62,6 +62,15 @@ const Map = ({ venues, center = [53.9, 27.56], zoom = 13 }: MapProps) => {
     });
   }, []);
 
+  const handleGetDirections = (venue: Venue) => {
+    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${venue.lat},${venue.lng}&travelmode=driving`;
+    window.open(googleMapsUrl, '_blank');
+  };
+
+  const handleCallVenue = () => {
+    window.open('tel:+375291234567', '_self');
+  };
+
   return (
     <div className="w-full h-[600px] rounded-xl overflow-hidden border-4 border-white shadow-2xl">
       <MapContainer
@@ -116,9 +125,25 @@ const Map = ({ venues, center = [53.9, 27.56], zoom = 13 }: MapProps) => {
                       {venue.age}
                     </div>
                   </div>
-                  <Button size="sm" className="w-full h-8 text-xs bg-primary hover:bg-primary/90">
-                    Подробнее
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button 
+                      size="sm" 
+                      className="flex-1 h-8 text-xs bg-primary hover:bg-primary/90"
+                      onClick={() => handleGetDirections(venue)}
+                    >
+                      <Icon name="Navigation" size={12} className="mr-1" />
+                      Маршрут
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      className="flex-1 h-8 text-xs border-2"
+                      onClick={handleCallVenue}
+                    >
+                      <Icon name="Phone" size={12} className="mr-1" />
+                      Позвонить
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </Popup>

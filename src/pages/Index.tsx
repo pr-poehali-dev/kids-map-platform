@@ -323,13 +323,22 @@ const Index = () => {
                               </div>
                             </div>
                             <div className="flex gap-2 mt-4">
-                              <Button className="flex-1 bg-primary" size="sm">
+                              <Button 
+                                className="flex-1 bg-primary" 
+                                size="sm"
+                                onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${venue.lat},${venue.lng}&travelmode=driving`, '_blank')}
+                              >
+                                <Icon name="Navigation" size={14} className="mr-1" />
+                                Маршрут
+                              </Button>
+                              <Button 
+                                variant="outline" 
+                                className="flex-1" 
+                                size="sm"
+                                onClick={() => window.open('tel:+375291234567', '_self')}
+                              >
                                 <Icon name="Phone" size={14} className="mr-1" />
                                 Позвонить
-                              </Button>
-                              <Button variant="outline" className="flex-1" size="sm">
-                                <Icon name="ExternalLink" size={14} className="mr-1" />
-                                Сайт
                               </Button>
                             </div>
                             <Button
@@ -421,9 +430,22 @@ const Index = () => {
                     {venue.reviews} отзывов
                   </div>
                 </div>
-                <Button className="w-full bg-primary hover:bg-primary/90">
-                  Подробнее
-                </Button>
+                <div className="flex gap-2">
+                  <Button 
+                    className="flex-1 bg-primary hover:bg-primary/90"
+                    onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${venue.lat},${venue.lng}&travelmode=driving`, '_blank')}
+                  >
+                    <Icon name="Navigation" size={16} className="mr-1" />
+                    Маршрут
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="flex-1 border-2"
+                  >
+                    <Icon name="Info" size={16} className="mr-1" />
+                    Подробнее
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           ))}
